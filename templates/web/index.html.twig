@@ -1,0 +1,7 @@
+{% extends 'web/base.html.twig' %}
+{% block body %}
+    <div class="h1 text-center">Genshin Armory</div>
+    {% embed 'web/player_info_card.html.twig' with {'info': playerInfo} %}
+    {% endembed %}
+    <pre>{{ playerInfo|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+{% endblock body %}
