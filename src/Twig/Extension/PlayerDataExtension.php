@@ -12,7 +12,7 @@ class PlayerDataExtension extends AbstractExtension {
         ];
     }
 
-    private function getNameCard(int $nameCardId) {
+    public function getNameCard(int $nameCardId) {
 
     }
 }

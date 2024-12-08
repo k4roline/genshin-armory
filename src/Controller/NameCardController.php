@@ -10,6 +10,6 @@ class NameCardController extends AbstractController {
     private array $cache = array();
     #[Route('/{nameCardId}', 'namecard_get', methods: ['GET'])]
     public function getNamecard(int $nameCardId) {
-
+        
     }
 }
