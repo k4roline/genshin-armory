@@ -14,7 +14,8 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-#[AsCommand('app:import:namecard')]
+#[AsCommand(name: 'app:import:namecard',
+            description: 'Downloads namecard data from external source')]
 class ImportNamecardCommand extends Command {
     public function __construct(private readonly HttpClientInterface   $httpClient,
                                 private readonly ParameterBagInterface $params) {
@@ -41,9 +42,5 @@ class ImportNamecardCommand extends Command {
         }
         $output->writeln("<info>Successfully imported namecards</info>");
         return Command::SUCCESS;
-    }
-
-    protected function configure(): void {
-        $this->setDescription("Downloads namecard data from external source");
     }
 }
