@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Service\ResourceDownloader;
-use Symfony\Component\Asset\Package;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(
