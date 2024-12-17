@@ -12,6 +12,11 @@ class WebController extends AbstractController {
 
     #[Route('/', 'index')]
     public function index(): Response {
-        return $this->render('web/index.html.twig', ['playerInfo' => json_decode($this->playerInfo, true)]);
+        return $this->render('web/index.html.twig');
+    }
+
+    #[Route('/u/{uid}', 'profile_display')]
+    public function displayProfile(string $uid): Response {
+        return $this->render('web/profile.html.twig', ['profileInfo' => json_decode($this->playerInfo, true)]);
     }
 }

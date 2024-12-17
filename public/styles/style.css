@@ -1,9 +1,80 @@
+:root {
+    --primary: #1a1c23;
+    --primary-dark: #22232a;
+    --secondary: #a56cc1;
+    --secondary-dark: #8b57a8;
+}
+
 body {
-    background-color: #1a1c23;
+    background-color: var(--primary);
     color: white;
     font-family: Philosopher, sans-serif;
+    line-height: 1.75;
 }
 
 .image-shadow {
-    box-shadow: 0 0 20px 20px #1a1c23 inset;
+    box-shadow: 0 0 20px 20px var(--primary) inset;
+}
+
+h1, h2 {
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+
+h2 {
+    color: var(--secondary);
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: justify;
+}
+
+p {
+    font-size: 1.25rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: justify;
+}
+
+hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, var(--secondary), transparent);
+    width: 60%;
+    margin: 2rem auto;
+}
+
+form {
+    max-width: 400px;
+}
+
+.index-input-uid {
+    border-color: var(--secondary);
+    background-color: var(--primary-dark);
+}
+
+.index-input-uid:focus {
+    border-color: var(--secondary-dark);
+}
+
+.index-btn-submit {
+    background-color: var(--secondary);
+}
+
+.index-btn-submit:hover {
+    background-color: var(--secondary-dark);
+}
+
+/* Remove arrows from number input */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* For Firefox */
 }
