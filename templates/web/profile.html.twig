@@ -1,0 +1,5 @@
+{% extends 'web/base.html.twig' %}
+{% block body %}
+    {% embed 'web/player_info_card.html.twig' with {'info': profileInfo} %}
+    {% endembed %}
+{% endblock %}

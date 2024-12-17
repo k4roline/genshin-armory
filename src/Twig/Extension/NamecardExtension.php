@@ -15,6 +15,6 @@ class NamecardExtension extends AbstractExtension {
     }
 
     public function getNamecard(int $id): string {
-        return $this->collector->getNamecard($id);
+        return $this->collector->get($id);
     }
 }
