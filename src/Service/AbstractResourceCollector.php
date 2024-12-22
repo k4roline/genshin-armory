@@ -32,9 +32,9 @@ abstract class AbstractResourceCollector {
      * @see NamecardCollector::collect()
      */
     public function get(string $id): string {
-        $path = "/images/$this->resourceName/{$id}{$this->fileExtension}";
-        if ($this->filesystem->exists($file = $this->assets->getUrl($path))) {
-            return $file;
+        $collectible = $this->getCollectible($id, '/');
+        if ($this->filesystem->exists($collectible)) {
+            return $collectible;
         }
         return $this->collect($id);
     }
@@ -46,20 +46,21 @@ abstract class AbstractResourceCollector {
      * @return string relative path to the imported resource
      */
     public function collect(string $id): string|null {
-        if (!$this->filesystem->exists($this->assets->getUrl("res/$this->resourceName.json"))) {
+        $resource = $this->assets->getUrl("res/$this->resourceName.json");
+        if (!$this->filesystem->exists($resource)) {
             return null;
         }
 
-        $file = $this->filesystem->readFile($this->assets->getUrl("res/$this->resourceName.json"));
+        $file = $this->filesystem->readFile($resource);
         $json = json_decode($file, true);
-        if (!$this->fetch(reset($json[$id]) . $this->fileExtension, $this->assets->getUrl("images/$this->resourceName/$id.png"))) {
+        $collectible = $this->getCollectible($id);
+        if (!$this->fetch(reset($json[$id]) . $this->fileExtension, $collectible)) {
             return null;
         }
-        return $this->assets->getUrl("/images/$this->resourceName/{$id}{$this->fileExtension}");
+        return $collectible;
     }
 
     private function fetch(string $collectible, string $target): bool {
-        $statusCode = 0;
         try {
             $response = $this->httpClient->request('GET', $_ENV['ENKANETWORK_API'] . '/' . $collectible);
             $statusCode = $response->getStatusCode();
@@ -68,8 +69,12 @@ abstract class AbstractResourceCollector {
         |TransportExceptionInterface
         |ServerExceptionInterface
         |RedirectionExceptionInterface $e) {
-            // todo fill
+            return false;
         }
-        return $statusCode === 200;
+        return $statusCode < 400;
+    }
+    
+    private function getCollectible(string $id, ?string $prefix = ''): string {
+        return $this->assets->getUrl("{$prefix}images/{$this->resourceName}/{$id}{$this->fileExtension}");
     }
 }
