@@ -10,9 +10,19 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+/**
+ * Downloads resources from external sources into local filesystem.
+ */
 readonly class ResourceDownloader {
     public function __construct(private HttpClientInterface $httpClient, private LoggerInterface $logger) {}
 
+    /**
+     * Downloads resource from web into the given path to local filesystem.
+     *
+     * @param string $resource name of the resource. Should be valid URL.
+     * @param string $path full path to the file in the local filesystem.
+     * @return bool whether the resource was successfully downloaded or not.
+     */
     public function download(string $resource, string $path): bool {
         try {
             $response = $this->httpClient->request('GET', $resource);

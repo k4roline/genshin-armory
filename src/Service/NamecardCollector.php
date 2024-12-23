@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class NamecardCollector extends AbstractResourceCollector {
