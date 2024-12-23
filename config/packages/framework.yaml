@@ -1,5 +1,10 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
+    http_client:
+        default_options:
+            headers:
+                'User-Agent': 'genshin-armory/%env(GAME_VERSION)'
+                'From': 'xr1s7offer@gmail.com'
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
 
@@ -8,8 +13,6 @@ framework:
 
     #esi: true
     #fragments: true
-
-    serializer: true
 
 when@test:
     framework:
