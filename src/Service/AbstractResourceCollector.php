@@ -8,7 +8,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
- * Downloads collectibles from
+ * Downloads collectibles from external sources.
  */
 abstract class AbstractResourceCollector {
     protected Filesystem $filesystem;
