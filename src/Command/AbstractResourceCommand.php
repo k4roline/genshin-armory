@@ -22,8 +22,8 @@ abstract class AbstractResourceCommand extends Command {
         $array = explode(':', $this->getName());
         $name = $array[array_key_last($array)];
         $url = $_ENV['RESOURCE_' . strtoupper($name)];
-        $path = $this->assets->getUrl('public/res/'.$name.'.json');
-        if ($this->downloader->download($url, $path, $output)) {
+        $path = $this->assets->getUrl('public/res/' . $name . '.json');
+        if ($this->downloader->download($url, $path)) {
             return Command::SUCCESS;
         }
         return Command::FAILURE;

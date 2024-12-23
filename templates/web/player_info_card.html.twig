@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-6">
         <div class="card border-0 rounded-0">
+            <img class="card-img img-fluid" src="{{ pfp(info.playerInfo.profilePicture.id) }}" alt=":/">
             <img class="card-img img-fluid" src="{{ namecard(info.playerInfo.nameCardId) }}" alt=":/">
             <div class="card-img-overlay image-shadow rounded-0">
                 <h5 class="card-title">{{ info.playerInfo.nickname }}</h5>
@@ -10,4 +11,4 @@
         </div>
     </div>
 </div>
-<pre>{{ playerInfo|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+<pre>{{ info|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>

@@ -11,13 +11,6 @@ framework:
 
     serializer: true
 
-    assets:
-        packages:
-            res:
-                base_path: 'res'
-            namecard:
-                base_path: 'images/namecard'
-
 when@test:
     framework:
         test: true

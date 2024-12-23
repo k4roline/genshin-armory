@@ -6,10 +6,10 @@ use App\Service\ResourceDownloader;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(
-    name: 'app:import:pfp',
-    description: 'Downloads character profile picture data from external source'
+    name: 'app:import:namecard',
+    description: 'Downloads namecard data from external source'
 )]
-class ImportPfpCommandAbstract extends AbstractResourceCommand {
+class ImportNamecardCommand extends AbstractResourceCommand {
     public function __construct(ResourceDownloader $downloader) {
         parent::__construct($downloader);
     }
