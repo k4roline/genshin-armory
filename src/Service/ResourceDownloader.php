@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -11,14 +11,14 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 readonly class ResourceDownloader {
-    public function __construct(private HttpClientInterface $httpClient) {}
+    public function __construct(private HttpClientInterface $httpClient, private LoggerInterface $logger) {}
 
-    public function download(string $resource, string $path, OutputInterface $output): bool {
+    public function download(string $resource, string $path): bool {
         try {
             $response = $this->httpClient->request('GET', $resource);
             $statusCode = $response->getStatusCode();
-            if ($statusCode != 200) {
-                $output->writeln("<error>Failed to import $resource. Status code:  $statusCode</error>");
+            if ($statusCode >= 400) {
+                $this->logger->error("<error>Failed to import $resource. Status code:  $statusCode</error>");
                 return false;
             }
             (new Filesystem())->dumpFile($path, $response->getContent());
@@ -26,10 +26,10 @@ readonly class ResourceDownloader {
                 |ClientExceptionInterface
                 |ServerExceptionInterface
                 |RedirectionExceptionInterface $e) {
-            $output->writeln('<error>' . $e->getMessage() . '</error>');
+            $this->logger->error("<error>{$e->getMessage()}</error>");
             return false;
         }
-        $output->writeln("<info>Successfully imported $resource into $path</info>");
+        $this->logger->info("<info>Successfully imported $resource into $path</info>");
         return true;
     }
 }

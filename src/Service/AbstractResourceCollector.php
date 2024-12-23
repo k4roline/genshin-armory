@@ -5,10 +5,6 @@ namespace App\Service;
 use Symfony\Component\Asset\Package;
 use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 abstract class AbstractResourceCollector {
@@ -17,7 +13,8 @@ abstract class AbstractResourceCollector {
     public function __construct(
         protected string $fileExtension,
         protected string $resourceName,
-        protected HttpClientInterface $httpClient
+        protected readonly HttpClientInterface $httpClient,
+        protected readonly ResourceDownloader $resourceDownloader
     ) {
         $this->filesystem = new Filesystem();
         $this->assets = new Package(new EmptyVersionStrategy());
@@ -32,9 +29,9 @@ abstract class AbstractResourceCollector {
      * @see NamecardCollector::collect()
      */
     public function get(string $id): string {
-        $collectible = $this->getCollectible($id, '/');
+        $collectible = $this->getCollectible($id);
         if ($this->filesystem->exists($collectible)) {
-            return $collectible;
+            return "/$collectible";
         }
         return $this->collect($id);
     }
@@ -54,27 +51,14 @@ abstract class AbstractResourceCollector {
         $file = $this->filesystem->readFile($resource);
         $json = json_decode($file, true);
         $collectible = $this->getCollectible($id);
-        if (!$this->fetch(reset($json[$id]) . $this->fileExtension, $collectible)) {
+        $resource = $_ENV['ENKANETWORK_API'] . '/' . reset($json[$id]) . $this->fileExtension;
+        if (!$this->resourceDownloader->download($resource, $collectible)) {
             return null;
         }
-        return $collectible;
-    }
-
-    private function fetch(string $collectible, string $target): bool {
-        try {
-            $response = $this->httpClient->request('GET', $_ENV['ENKANETWORK_API'] . '/' . $collectible);
-            $statusCode = $response->getStatusCode();
-            $this->filesystem->dumpFile($this->assets->getUrl($target), $response->getContent());
-        } catch (ClientExceptionInterface
-        |TransportExceptionInterface
-        |ServerExceptionInterface
-        |RedirectionExceptionInterface $e) {
-            return false;
-        }
-        return $statusCode < 400;
+        return "/$collectible";
     }
     
-    private function getCollectible(string $id, ?string $prefix = ''): string {
-        return $this->assets->getUrl("{$prefix}images/{$this->resourceName}/{$id}{$this->fileExtension}");
+    private function getCollectible(string $id): string {
+        return $this->assets->getUrl("images/{$this->resourceName}/{$id}{$this->fileExtension}");
     }
 }
