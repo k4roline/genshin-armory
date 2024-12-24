@@ -1,14 +1,19 @@
-<div class="row">
-    <div class="col-6">
-        <div class="card border-0 rounded-0">
-            <img class="card-img img-fluid" src="{{ pfp(info.playerInfo.profilePicture.id) }}" alt=":/">
-            <img class="card-img img-fluid" src="{{ namecard(info.playerInfo.nameCardId) }}" alt=":/">
-            <div class="card-img-overlay image-shadow rounded-0">
-                <h5 class="card-title">{{ info.playerInfo.nickname }}</h5>
-                <h6 class="card-subtitle">{{ info.playerInfo.signature }}</h6>
-                <h5 class="card-footer">{{ info.uid }}</h5>
+<div class="card namecard my-3">
+    <img class="border border-white rounded-2" src="{{ namecard(info.playerInfo.nameCardId) }}" alt="">
+    <div class="card-img-overlay">
+        <div class="row">
+            <div class="col-4 text-center fw-bold">
+                <img class="card-img avatar" src="{{ avatar(info.playerInfo.profilePicture.id) }}" alt="">
+                <h4 class="my-3">{{ info.uid }}</h4>
+            </div>
+            <div class="col-8">
+                <h1 class="namecard-highlight">{{ info.playerInfo.nickname }}</h1>
+                <h1>{{ info.playerInfo.signature }}</h1>
+                <h1 class="namecard-highlight">Adventure Rank {{ info.playerInfo.level }}</h1>
+                <h1>World Level {{ info.playerInfo.worldLevel }}</h1>
             </div>
         </div>
     </div>
 </div>
+
 <pre>{{ info|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>

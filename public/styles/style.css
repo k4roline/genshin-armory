@@ -3,6 +3,23 @@
     --primary-dark: #22232a;
     --secondary: #a56cc1;
     --secondary-dark: #8b57a8;
+
+    /* element color codes */
+    --pyro: #ec4923;
+    --hydro: #00bfff;
+    --anemo: #359697;
+    --electro: #945dc4;
+    --dendro: #608a00;
+    --cryo: #4682b4;
+    --geo: #debd6c;
+    --physical: #939393;
+
+    /* rarity color codes */
+    --1star: #85949c;
+    --2star: #649c74;
+    --3star: #54a4b4;
+    --4star: #9174a9;
+    --5star: #dca454;
 }
 
 body {
@@ -16,16 +33,17 @@ body {
     box-shadow: 0 0 20px 20px var(--primary) inset;
 }
 
-h1, h2 {
+.index-h1,
+.index-h2 {
     margin-bottom: 1rem;
 }
 
-h1 {
+.index-h1 {
     font-size: 3.5rem;
     font-weight: bold;
 }
 
-h2 {
+.index-h2 {
     color: var(--secondary);
     max-width: 800px;
     margin: 0 auto;
@@ -77,4 +95,31 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
     -moz-appearance: textfield; /* For Firefox */
+}
+
+.namecard {
+    max-width: 840px;
+    max-height: 400px;
+}
+
+.namecard-highlight {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.avatar {
+    max-width: 128px;
+    max-height: 128px;
+    border-radius: 50%;
+    border: 3px solid white;
+    background-color: white;
+}
+
+.grayscale {
+    filter: grayscale(100%); /* Grayscale the image */
+}
+
+.bg-overlay {
+    background-color: #debd6c; /* The color you want to paint */
+    mix-blend-mode: multiply; /* Blend it with the grayscale image */
+    pointer-events: none; /* Make sure it doesn’t interfere with interactivity */
 }
